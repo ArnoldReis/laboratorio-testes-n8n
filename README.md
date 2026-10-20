@@ -60,3 +60,7 @@ O laboratório tem um gate **manual e consultivo**, que considera bloqueada a ex
 - [Testes do mock local](tests/test_homologation_mock.py)
 
 **Estado:** política testada com status BLOQUEADO, conforme esperado. O laboratório Docker é apenas um template; não foi implantado automaticamente no host da empresa.
+
+## V1.5 — Diagnóstico de capacidade
+
+Antes de instalar os containers de homologação no servidor, execute o [script de diagnóstico somente leitura](scripts/preflight-v15.sh). O [runbook da V1.5](docs/v1.5-host-preflight.md) descreve CPU, memória, Docker, porta e requisitos mínimos de isolamento. **Sem implantação automática:** o ambiente de laboratório ainda depende da avaliação real do host.
