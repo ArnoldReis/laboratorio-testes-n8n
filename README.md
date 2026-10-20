@@ -49,3 +49,14 @@ O laboratório agora permite comparar **baselines sintéticas** de uma mesma sui
 - [Testes de regressão, recuperação e histórico incompleto](examples/automation-test-lab/regression-v13.test.mjs)
 
 O radar não avalia workflows de produção, e relatórios de teste não representam incidentes operacionais.
+
+## V1.4 — Pré-homologação e isolamento de testes
+
+O laboratório tem um gate **manual e consultivo**, que considera bloqueada a execução de workflows reais até verificar instância, rede, armazenamento, credenciais e mocks dedicados. Um [modelo de Docker Compose isolado](examples/homologation/compose.lab.yml) e um [servidor de respostas falsas](examples/homologation/mock/server.py) permitem preparar o ambiente separadamente, sem alterar a stack de produção.
+
+- [Runbook de V1.4, limites e checklist de segurança](docs/v1.4-isolated-homologation.md)
+- [Política fail-closed reproduzível](examples/automation-test-lab/gate-v14.mjs)
+- [Testes de políticas](examples/automation-test-lab/gate-v14.test.mjs)
+- [Testes do mock local](tests/test_homologation_mock.py)
+
+**Estado:** política testada com status BLOQUEADO, conforme esperado. O laboratório Docker é apenas um template; não foi implantado automaticamente no host da empresa.
