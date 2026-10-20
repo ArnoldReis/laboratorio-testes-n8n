@@ -25,3 +25,5 @@ jobs:
           LAB_N8N_IMAGE: docker.n8n.io/n8nio/n8n:2.42.5
           LAB_ENCRYPTION_KEY: local_ci_sample_only_do_not_reuse_anywhere_abcdefgh1234
         run: docker compose -f examples/homologation/compose.lab.yml config --quiet
+      - name: Validate preflight syntax (never execute against CI host)
+        run: bash -n scripts/preflight-v15.sh
