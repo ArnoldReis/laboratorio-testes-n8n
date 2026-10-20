@@ -1,0 +1,59 @@
+# TEMPLATE ONLY. Do not deploy on the production stack without review.
+# Run with: docker compose --env-file .env.lab -f compose.lab.yml up -d
+name: automation-sandbox-lab
+services:
+  lab-n8n:
+    image: ${LAB_N8N_IMAGE:?Pin a supported n8n release in .env.lab}
+    restart: "no"
+    init: true
+    ports:
+      - "127.0.0.1:5688:5678"
+    environment:
+      N8N_ENCRYPTION_KEY: ${LAB_ENCRYPTION_KEY:?Generate a unique random key in .env.lab}
+      DB_TYPE: sqlite
+      N8N_HOST: localhost
+      N8N_PORT: "5678"
+      N8N_PROTOCOL: http
+      N8N_SECURE_COOKIE: "false"
+      N8N_DIAGNOSTICS_ENABLED: "false"
+      N8N_PERSONALIZATION_ENABLED: "false"
+      N8N_BLOCK_ENV_ACCESS_IN_NODE: "true"
+    volumes:
+      - lab-n8n-state:/home/node/.n8n
+    networks:
+      - lab-only
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 1536m
+    cpus: 1.0
+
+  lab-mock:
+    image: python:3.12-alpine
+    restart: "no"
+    command: ["python", "-B", "/opt/mock/server.py"]
+    volumes:
+      - ./mock/server.py:/opt/mock/server.py:ro
+    networks:
+      - lab-only
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 128m
+    cpus: 0.5
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=3)"]
+      interval: 20s
+      timeout: 5s
+      retries: 3
+
+networks:
+  lab-only:
+    driver: bridge
+    internal: true
+
+volumes:
+  lab-n8n-state: {}
