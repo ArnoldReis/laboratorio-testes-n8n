@@ -6,7 +6,7 @@ Este repositório documenta um laboratório de testes para automações com **ca
 - Sem dados reais, credenciais, workflow exportado ou conexões com serviços internos.
 - A implementação de referência será revisada em uma branch antes do merge.
 
-**Status:** MVP sintético validado; executor parametrizável V1.1 em desenvolvimento.
+**Status:** V1.1 sintética validada no n8n com seleção de suites, comparação de contratos e histórico. Execução de workflows reais ainda não habilitada.
 
 ## Segurança
 
