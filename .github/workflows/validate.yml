@@ -17,3 +17,11 @@ jobs:
           node-version: '22'
       - name: Unit and contract tests
         run: node --test examples/automation-test-lab/*.test.mjs
+
+      - name: Unit tests for isolated fake HTTP mock
+        run: python3 -m unittest discover -s tests -p 'test_homologation_mock.py' -v
+      - name: Validate Docker Compose sandbox template
+        env:
+          LAB_N8N_IMAGE: docker.n8n.io/n8nio/n8n:2.42.5
+          LAB_ENCRYPTION_KEY: local_ci_sample_only_do_not_reuse_anywhere_abcdefgh1234
+        run: docker compose -f examples/homologation/compose.lab.yml config --quiet
