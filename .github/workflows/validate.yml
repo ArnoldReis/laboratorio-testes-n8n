@@ -27,3 +27,7 @@ jobs:
         run: docker compose -f examples/homologation/compose.lab.yml config --quiet
       - name: Validate preflight syntax (never execute against CI host)
         run: bash -n scripts/preflight-v15.sh
+      - name: Validate V1.5 post-deploy verifier syntax
+        run: bash -n scripts/verify-lab-v15.sh
+      - name: Test post-deploy verifier guardrails
+        run: python3 -m unittest discover -s tests -p 'test_post_deploy_verifier.py' -v
