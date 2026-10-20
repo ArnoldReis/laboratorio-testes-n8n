@@ -1,0 +1,209 @@
+{
+  "configurationVersion": "1.1",
+  "selectedSuites": [
+    "contrato_tarefas_v1",
+    "evento_entrega_v1"
+  ],
+  "suites": [
+    {
+      "id": "contrato_tarefas_v1",
+      "version": "1.0",
+      "adapter": "ticket_normalizer",
+      "cases": [
+        {
+          "id": "T01",
+          "name": "ID e prioridade normalizados",
+          "input": {
+            "ticketId": " t-101 ",
+            "priority": "HIGH",
+            "minutes": 35,
+            "status": "OPEN"
+          },
+          "expected": {
+            "id": "T-101",
+            "priority": "high",
+            "minutes": 35,
+            "status": "open",
+            "attention": true
+          }
+        },
+        {
+          "id": "T02",
+          "name": "Chamado concluído",
+          "input": {
+            "ticketId": "T-102",
+            "priority": "high",
+            "minutes": 75,
+            "status": "done"
+          },
+          "expected": {
+            "id": "T-102",
+            "priority": "high",
+            "minutes": 75,
+            "status": "done",
+            "attention": false
+          }
+        },
+        {
+          "id": "T03",
+          "name": "Prioridade média",
+          "input": {
+            "ticketId": "T-103",
+            "priority": "medium",
+            "minutes": 0,
+            "status": "open"
+          },
+          "expected": {
+            "id": "T-103",
+            "priority": "medium",
+            "minutes": 0,
+            "status": "open",
+            "attention": false
+          }
+        },
+        {
+          "id": "T04",
+          "name": "Tempo como string",
+          "input": {
+            "ticketId": "T-104",
+            "priority": "low",
+            "minutes": "12",
+            "status": "open"
+          },
+          "expected": {
+            "id": "T-104",
+            "priority": "low",
+            "minutes": 12,
+            "status": "open",
+            "attention": false
+          }
+        },
+        {
+          "id": "T05",
+          "name": "ID inválido rejeitado",
+          "input": {
+            "ticketId": "INVALID",
+            "priority": "high",
+            "minutes": 5,
+            "status": "open"
+          },
+          "expected": {
+            "errorCode": "INVALID_ID"
+          }
+        },
+        {
+          "id": "T06",
+          "name": "Tempo negativo rejeitado",
+          "input": {
+            "ticketId": "T-106",
+            "priority": "medium",
+            "minutes": -4,
+            "status": "open"
+          },
+          "expected": {
+            "errorCode": "INVALID_MINUTES"
+          }
+        },
+        {
+          "id": "T07",
+          "name": "Prioridade desconhecida",
+          "input": {
+            "ticketId": "T-107",
+            "priority": "critical",
+            "minutes": 15,
+            "status": "open"
+          },
+          "expected": {
+            "errorCode": "INVALID_PRIORITY"
+          }
+        },
+        {
+          "id": "T08",
+          "name": "Status desconhecido",
+          "input": {
+            "ticketId": "T-108",
+            "priority": "low",
+            "minutes": 2,
+            "status": "undefined"
+          },
+          "expected": {
+            "errorCode": "INVALID_STATUS"
+          }
+        }
+      ]
+    },
+    {
+      "id": "evento_entrega_v1",
+      "version": "1.0",
+      "adapter": "delivery_classifier",
+      "cases": [
+        {
+          "id": "D01",
+          "name": "Entrega reconhecida",
+          "input": {
+            "eventId": "EVT-201",
+            "attempts": 1,
+            "acknowledged": true
+          },
+          "expected": {
+            "eventId": "EVT-201",
+            "classification": "entregue",
+            "attempts": 1
+          }
+        },
+        {
+          "id": "D02",
+          "name": "Reprocessamento necessário",
+          "input": {
+            "eventId": "EVT-202",
+            "attempts": 2,
+            "acknowledged": false
+          },
+          "expected": {
+            "eventId": "EVT-202",
+            "classification": "reprocessar",
+            "attempts": 2
+          }
+        },
+        {
+          "id": "D03",
+          "name": "Revisão após limite",
+          "input": {
+            "eventId": "EVT-203",
+            "attempts": 3,
+            "acknowledged": false
+          },
+          "expected": {
+            "eventId": "EVT-203",
+            "classification": "fila_revisao",
+            "attempts": 3
+          }
+        },
+        {
+          "id": "D04",
+          "name": "Tentativas negativas rejeitadas",
+          "input": {
+            "eventId": "EVT-204",
+            "attempts": -1,
+            "acknowledged": false
+          },
+          "expected": {
+            "errorCode": "INVALID_ATTEMPTS"
+          }
+        },
+        {
+          "id": "D05",
+          "name": "Identificador inválido rejeitado",
+          "input": {
+            "eventId": "x",
+            "attempts": 1,
+            "acknowledged": true
+          },
+          "expected": {
+            "errorCode": "INVALID_EVENT_ID"
+          }
+        }
+      ]
+    }
+  ]
+}

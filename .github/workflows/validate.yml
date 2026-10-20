@@ -1,0 +1,33 @@
+name: Validate public examples
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Unit and contract tests
+        run: node --test examples/automation-test-lab/*.test.mjs
+
+      - name: Unit tests for isolated fake HTTP mock
+        run: python3 -m unittest discover -s tests -p 'test_homologation_mock.py' -v
+      - name: Validate Docker Compose sandbox template
+        env:
+          LAB_N8N_IMAGE: docker.n8n.io/n8nio/n8n:2.42.5
+          LAB_ENCRYPTION_KEY: local_ci_sample_only_do_not_reuse_anywhere_abcdefgh1234
+        run: docker compose -f examples/homologation/compose.lab.yml config --quiet
+      - name: Validate preflight syntax (never execute against CI host)
+        run: bash -n scripts/preflight-v15.sh
+      - name: Validate V1.5 post-deploy verifier syntax
+        run: bash -n scripts/verify-lab-v15.sh
+      - name: Test post-deploy verifier guardrails
+        run: python3 -m unittest discover -s tests -p 'test_post_deploy_verifier.py' -v
