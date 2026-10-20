@@ -11,3 +11,15 @@ Este repositório documenta um laboratório de testes para automações com **ca
 ## Segurança
 
 Os exemplos são públicos e deliberadamente **fictícios**. Não adicionar exportações brutas de n8n, segredos, credenciais, IDs internos, dados empresariais, logs ou URLs internas.
+
+## Código de referência
+
+- [Arquitetura e roadmap](docs/automated-test-laboratory.md)
+- [Executor sintético](examples/automation-test-lab/runner.mjs)
+- [Testes](examples/automation-test-lab/runner.test.mjs)
+
+```bash
+node --test examples/automation-test-lab/*.test.mjs
+```
+
+**Importante:** esta implementação demonstra o mecanismo em dados sintéticos; não executa outros workflows e não dispõe de permissões para ações em produção.
