@@ -63,4 +63,4 @@ O laboratório tem um gate **manual e consultivo**, que considera bloqueada a ex
 
 ## V1.5 — Diagnóstico de capacidade
 
-Antes de instalar os containers de homologação no servidor, execute o [script de diagnóstico somente leitura](scripts/preflight-v15.sh). O [runbook da V1.5](docs/v1.5-host-preflight.md) descreve CPU, memória, Docker, porta e requisitos mínimos de isolamento. **Sem implantação automática:** o ambiente de laboratório ainda depende da avaliação real do host.
+Antes de instalar os containers de homologação no servidor, execute o [script de diagnóstico somente leitura](scripts/preflight-v15.sh). Após uma implantação autorizada, use o [verificador de isolamento e mocks](scripts/verify-lab-v15.sh) para validar o ambiente sem alterar os serviços. O [runbook da V1.5](docs/v1.5-host-preflight.md) descreve CPU, memória, Docker, porta e requisitos mínimos de isolamento. **Sem implantação automática:** o ambiente de laboratório ainda depende da avaliação real do host.
