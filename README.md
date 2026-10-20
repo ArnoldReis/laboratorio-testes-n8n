@@ -39,3 +39,13 @@ A V1.2 possui um executor manual que chama **somente um subworkflow fictício fi
 - [Testes de segurança e detecção de divergência](examples/automation-test-lab/sandbox-v12.test.mjs)
 
 O código é educacional. O alvo de testes na instância n8n **não é um container/ambiente separado**; execução de automações de produção continua fora de escopo.
+
+## V1.3 — Radar de regressões
+
+O laboratório agora permite comparar **baselines sintéticas** de uma mesma suite/versão/contrato, diferenciando testes negativos propositais e histórico legado. Um workflow manual lê a amostra do histórico, registra um resumo auditável e não envia alertas nem expõe detalhes a visitantes.
+
+- [Documentação V1.3 e critérios de comparação](docs/v1.3-regression-radar.md)
+- [Algoritmo de referência (somente memória)](examples/automation-test-lab/regression-v13.mjs)
+- [Testes de regressão, recuperação e histórico incompleto](examples/automation-test-lab/regression-v13.test.mjs)
+
+O radar não avalia workflows de produção, e relatórios de teste não representam incidentes operacionais.
