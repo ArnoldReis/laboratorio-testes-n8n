@@ -64,3 +64,13 @@ O laboratório tem um gate **manual e consultivo**, que considera bloqueada a ex
 ## V1.5 — Diagnóstico de capacidade
 
 Antes de instalar os containers de homologação no servidor, execute o [script de diagnóstico somente leitura](scripts/preflight-v15.sh). Após uma implantação autorizada, use o [verificador de isolamento e mocks](scripts/verify-lab-v15.sh) para validar o ambiente sem alterar os serviços. O [runbook da V1.5](docs/v1.5-host-preflight.md) descreve CPU, memória, Docker, porta e requisitos mínimos de isolamento. **Sem implantação automática:** o ambiente de laboratório ainda depende da avaliação real do host.
+
+## V1.5 — Console interno no n8n
+
+Além da preparação do Docker, existe agora um **console manual** criado na instância n8n atual que consolida **somente evidências sintéticas** do histórico, radar e gate de segurança. Ele salva um snapshot em tabela dedicada e devolve uma **prévia HTML privada** no resultado, sem webhook ou exposição pública.
+
+- [Arquitetura e testes reais da V1.5](docs/v1.5-manual-console.md)
+- [Lógica pública de agregação e preview](examples/automation-test-lab/console-v15.mjs)
+- [Testes de comandos bloqueados, integridade e HTML](examples/automation-test-lab/console-v15.test.mjs)
+
+Nenhum container foi criado nem serviço de produção alterado. O Docker segregado depende do diagnóstico do host.
